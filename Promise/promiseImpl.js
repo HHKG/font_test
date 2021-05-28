@@ -19,25 +19,62 @@ const MyPromise = require("./promiseOverride");
 //   }
 // );
 
-let myPromise = new MyPromise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("success");
-  }, 2000);
+const myPromise = new MyPromise((resolve, reject) => {
+  resolve("succ");
+  // reject("reject");
+  // throw new Error("执行错误");
 });
-
-// myPromise.then((resolve) => {
-//   console.log(resolve);
-// });
 myPromise
-  .then((value) => {
-    console.log(1);
-    console.log("resolve", value);
-  })
-  .then((value) => {
-    console.log(2);
-    console.log("resolve", value);
-  })
-  .then((value) => {
-    console.log(3);
-    console.log("resolve", value);
-  });
+  .then((value) => console.log(value))
+  .then((value) => console.log(value))
+  .then((value) => console.log(value));
+
+// myPromise
+//   .then(
+//     (value) => {
+//       console.log(1);
+//       console.log("resolve", value);
+//       throw new Error("then error");
+//     },
+//     (reason) => {
+//       console.log(2);
+//       console.log(reason.message);
+//     }
+//   )
+//   .then(
+//     (value) => {
+//       console.log(3);
+//       console.log(value);
+//     },
+//     (reason) => {
+//       console.log(4);
+//       console.log(reason.message);
+//     }
+//   );
+
+// myPromise.then(
+//   (value) => {
+//     console.log(1);
+//     console.log("resolve", value);
+//   },
+//   (reason) => {
+//     console.log(2);
+//     console.log(reason.message);
+//   }
+// );
+
+// const p1 = myPromise.then((value) => {
+//   console.log(1);
+//   console.log("resolve", value);
+//   return p1;
+// });
+// p1.then(
+//   (value) => {
+//     console.log(2);
+//     console.log("resolve", value);
+//   },
+//   (reason) => {
+//     console.log(3);
+//     console.log(reason.message);
+//   }
+// );
