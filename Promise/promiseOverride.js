@@ -24,6 +24,7 @@ class MyPromise {
 
   resolve = (val) => {
     if (this.status === PENDING) {
+      console.log("00000000", val);
       //只有状态是等待的时候，才执行状态更改
       this.status = FULFILLED;
       this.value = val;
