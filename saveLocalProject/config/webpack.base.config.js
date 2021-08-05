@@ -4,12 +4,14 @@
  * @Author: Jsmond2016 <jsmond2016@gmail.com>
  * @Copyright: Copyright (c) 2020, Jsmond2016
  */
-
 // 清理产出目录的插件
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 //  产出 html 的插件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+// 单独打包css文件
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const path = require("path");
 
@@ -30,12 +32,21 @@ module.exports = {
     host: "localhost",
     port: 8080,
   },
+
   module: {
     rules: [
       {
         test: /\.(j|t)sx?/,
         use: "ts-loader",
         exclude: /node_modules/,
+      },
+      // 单独打包scss
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: ["css-loader", "sass-loader"],
+          fallback: "style-loader",
+        }),
       },
     ],
   },
@@ -45,6 +56,13 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+    }),
+    // 单独打包scss
+    new ExtractTextPlugin({
+      filename: (getPath) => {
+        return getPath("css/[name].css").replace("css/js", "css");
+      },
+      allChunks: true,
     }),
   ],
 };

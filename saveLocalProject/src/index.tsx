@@ -1,11 +1,13 @@
 import React,{FC} from 'react';
 import ReactDOM from 'react-dom';
+import './index.scss';
+import HomePage from './page/homePage';
+import PublicTable from './page/publicComponents/PublicTable';
 
 const App:FC=()=>{
   return <React.Fragment>
-    <div>
-        我是一个ts+react项目123444
-    </div>
+    <HomePage/>
+    <PublicTable/>
   </React.Fragment>
 }
 ReactDOM.render(<App />, document.getElementById("root"));
