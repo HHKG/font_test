@@ -1,5 +1,39 @@
 const fs = require("fs");
 const path = require("path");
+
+//递归获取项目目录以及文件内容
+const getProjectDir = (_targetObj, fileUrl, file) => {
+  file.forEach((_item, index) => {
+    if (path.extname(_item) || _item.indexOf(".") !== -1) {
+      //如果是文件，就读取文件内容
+      fs.readFile(`${fileUrl}/${_item}`, (err, data) => {
+        if (!err) {
+          _targetObj[`${_item}`] = data.toString();
+        }
+      });
+    } else {
+      //这里是文件夹，继续读取文件夹，直到获取到文件
+      if (
+        _item === "node_modules" ||
+        _item === ".DS_Store" ||
+        _item === ".git"
+      ) {
+        return;
+      }
+      _targetObj[`${_item}`] = {};
+      setTimeout(() => {
+        fs.readdir(`${fileUrl}/${_item}`, (err, data) => {
+          if (data && data.length > 0) {
+            getProjectDir(_targetObj[`${_item}`], `${fileUrl}/${_item}`, data);
+          } else {
+            _targetObj[`${_item}`] = {};
+          }
+        });
+      }, 100);
+    }
+  });
+};
+
 const appController = (server) => {
   server.all("*", (req, res, next) => {
     //设为指定的域
@@ -18,39 +52,7 @@ const appController = (server) => {
     const fileName = fileUrlArr[fileUrlArr.length - 1];
     _targetObj[`${fileName}`] = {};
     fs.readdir(`${fileUrl}`, (err, file) => {
-      file.forEach((_item, index) => {
-        if (path.extname(_item)) {
-          //如果是文件，就读取文件内容
-          fs.readFile(`${fileUrl}/${_item}`, (err, data) => {
-            _targetObj[`${fileName}`][`${_item}`] = data.toString();
-          });
-        } else {
-          //这里是文件夹，继续读取文件夹，直到获取到文件
-          _targetObj[`${fileName}`][`${_item}`] = {};
-          setTimeout(() => {
-            fs.readdir(`${fileUrl}/${_item}`, (err, data) => {
-              if (data && data.length > 0) {
-                data.forEach((_childItem) => {
-                  if (path.extname(_childItem)) {
-                    //如果是文件，就读取文件内容
-                    fs.readFile(
-                      `${fileUrl}/${_item}/${_childItem}`,
-                      (err, _childData) => {
-                        _targetObj[`${fileName}`][`${_item}`][`${_childItem}`] =
-                          _childData.toString();
-                      }
-                    );
-                  } else {
-                    _targetObj[`${fileName}`][`${_item}`][`${_childItem}`] = {};
-                  }
-                });
-              } else {
-                _targetObj[`${fileName}`][`${_item}`] = {};
-              }
-            });
-          }, 1000);
-        }
-      });
+      getProjectDir(_targetObj[`${fileName}`], fileUrl, file);
       setTimeout(() => {
         res.json({
           message: "请求成功！",
