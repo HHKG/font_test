@@ -48,6 +48,17 @@ module.exports = {
           fallback: "style-loader",
         }),
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|ttf)(\?.*)?$/, //
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+        },
+      },
     ],
   },
   plugins: [
