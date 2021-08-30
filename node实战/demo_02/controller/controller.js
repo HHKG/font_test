@@ -62,5 +62,25 @@ const appController = (server) => {
       }, 2000);
     });
   });
+  server.post("/saveFile.json", (req, res) => {
+    console.log(req, res);
+    const { filePath, content } = req.body;
+    fs.writeFile(filePath, content, (error, data) => {
+      console.log(error, data);
+      if (!error) {
+        res.json({
+          message: "请求成功！",
+          success: true,
+          data: data,
+        });
+      } else {
+        res.json({
+          message: "请求失败！",
+          success: false,
+          data: error,
+        });
+      }
+    });
+  });
 };
 module.exports = { appController };

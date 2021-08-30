@@ -6,6 +6,7 @@
  */
 // 清理产出目录的插件
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 //  产出 html 的插件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -74,6 +75,10 @@ module.exports = {
         return getPath("css/[name].css").replace("css/js", "css");
       },
       allChunks: true,
+    }),
+    new MonacoWebpackPlugin({
+      // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+      languages: ["json"],
     }),
   ],
 };

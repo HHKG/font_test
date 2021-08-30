@@ -2,14 +2,14 @@ import React, { useState,useEffect } from 'react';
 import Request from '../../../utils/http'
 
 import { Button,Input,Menu,Layout,Breadcrumb } from 'antd';
-import MonacoEditor from '../monacoEditor/MonacoEditor';
+import MonacoEditorDom from '../monacoEditor/MonacoEditor';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const UploadCode=():React.ReactElement=>{
   const [fileUrl,setFileUrl]=useState('');
   const [fileDir,setFileDir]=useState<any>({});
-  const [currentContext,setCurrentContext]=useState<{fileType:string;fileContext:string;}>({fileType:'',fileContext:''});
+  const [currentContext,setCurrentContext]=useState<{fileType:string;fileContext:string;filePath:string}>({fileType:'',fileContext:'',filePath:''});
   //递归项目目录
   const recursiveDir=(chidItem:any)=>{
     return Object.keys(chidItem).length>0&&Object.keys(chidItem).map(currentItem=>{
@@ -41,23 +41,24 @@ const UploadCode=():React.ReactElement=>{
   //点击MenuItem
   const onClickMenuIte=({ item, key, keyPath, domEvent }:{item:unknown;key:string;keyPath:string [],domEvent:any})=>{
       const _targetArr=keyPath.reverse();
+      console.log(item, key, keyPath, domEvent)
       let targetFile=fileDir;
       let fileType='';
+      let filePath=_targetArr.join('/').replace('/child','');
       _targetArr.forEach(_item=>{
         if(_item.indexOf('/')!==-1){
           _item= _item.split('/')[0];
-          console.log(_item.split('.')[1],'_item[0].split()[1]')
           fileType=_item.split('.')[1];
         }
         targetFile=targetFile[`${_item}`]
       })
       setCurrentContext({
+        filePath:filePath.substring(filePath.indexOf('/')),
         fileType,
         fileContext:targetFile
       });
   }
 
-console.log(currentContext);
   return <React.Fragment>
       <Input placeholder="请输入需要上传的文件路径" onChange={(val)=>{
           setFileUrl(val.target.value);
@@ -95,12 +96,12 @@ console.log(currentContext);
                 minHeight: 280,
               }}
             >
-              <div style={{whiteSpace: 'pre-line'}}>
+              {/* <div style={{whiteSpace: 'pre-line'}}>
                 {
                   currentContext.fileContext
                 }
-              </div>
-              <MonacoEditor/>
+              </div> */}
+              <MonacoEditorDom filePath={fileUrl+'/'+currentContext.filePath} currentContent={currentContext.fileContext}/>
             </Content>
           </Layout>
         

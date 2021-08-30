@@ -8,6 +8,7 @@ const App:FC=()=>{
   return <React.Fragment>
     <HomePage/>
     <PublicTable/>
+    
   </React.Fragment>
 }
 ReactDOM.render(<App />, document.getElementById("root"));
