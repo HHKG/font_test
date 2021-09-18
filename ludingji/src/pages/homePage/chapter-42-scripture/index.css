@@ -1,0 +1,7 @@
+.form-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.form-item-width {
+  width: 300px;
+}

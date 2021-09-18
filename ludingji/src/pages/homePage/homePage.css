@@ -1,0 +1,19 @@
+.link-layout {
+  margin-left: 20px;
+}
+.system-container {
+  display: flex;
+  padding-left: 50px;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../static/images/bci.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  overflow-y: auto;
+}
+.system-content {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+}
