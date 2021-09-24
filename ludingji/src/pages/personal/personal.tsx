@@ -1,18 +1,147 @@
-import React from 'react';
+import React,{useRef} from 'react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import './personal.css';
 
 const Personal=()=>{
-  return <div className="personal-container">
+  const targetNode=useRef(null);
+  const projectArr=[
+    {
+      title:'2018.01.01-2018.12.25：云易网络科技（广州）有限公司',
+      key:'companyOne',
+      projectList:[
+        {
+          position:'web前端开发',
+         projectName:'军师联盟App',
+         technology:'MUI框架+js+h5+css+JQuery+ajax'
+        },
+        {
+          position:'web前端开发',
+         projectName:'嘉薇上品微信公众号',
+         technology:'MUI框架+js+h5+css+JQuery+ajax'
+        },
+        {
+          position:'web前端开发',
+         projectName:'南山建乐微信公众号',
+         technology:'MUI框架+js+h5+css+JQuery+ajax'
+        },
+      ]
+    },
+    {
+      title:'2019.01.01-2019.06.30：广州沃泰集团控股有限公司',
+      key:'companyTwo',
+      projectList:[
+        {
+          position:'web前端开发',
+         projectName:'虔心荟微信公共众号',
+         technology:'VUE+element-ui+node.js+webpack+js+h5+css+ajax'
+        },
+        {
+          position:'web前端开发',
+         projectName:'虔心荟小程序',
+         technology:'js+h5+微信原生开发文档+ajax'
+        },
+        {
+          position:'web前端开发',
+         projectName:'虔心荟官网',
+         technology:'js+h5+Bootstrap+ajax'
+        },
+      ]
+    },
+    {
+      title:'2019.08-2020-05：深圳优泰文创运营有限公司',
+      key:'companyThree',
+      projectList:[
+        {
+          position:'web前端开发',
+         projectName:'36司小程序',
+         technology:'js+h5+微信原生开发文档+ajax'
+        },
+        {
+          position:'web前端开发',
+         projectName:'放肆定制小程序',
+         technology:'js+h5+微信原生开发文档+canvas+ajax'
+        },
+        {
+          position:'web前端开发',
+         projectName:'肌本演绎后台管理系统',
+         technology:'react+mobx+antd+canvas'
+        },
+      ]
+    },
+    {
+      title:'2020.08-至今：阿里巴巴外包（ICBU）',
+      key:'companyFour',
+      projectList:[
+        {
+          position:'web前端开发',
+         projectName:'履约协同财税系统',
+         technology:'react+node+webpack'
+        },
+        {
+          position:'web前端开发',
+         projectName:'履约协同退税系统',
+         technology:'react+node+webpack'
+        },
+        {
+          position:'web前端开发',
+         projectName:'履约协同服务市场',
+         technology:'react+node+webpack'
+        },
+      ]
+    }
+  ]
+  return <div className="personal-container" ref={targetNode}>
       <div className="personal-head">
         <h1 className="color-153-106-6">黄华康</h1>
         <div className="color-153-106-6">求职意向：web前端开发</div>
       </div>
       <div className="personal-msg">
         <span>出生日期：1994.08.13</span>
-        <span>联系电话：17840975849</span>
+        <span>联系电话：<a href="tel:17840975849">17840975849</a></span>
         <span>邮箱：972834061@qq.com</span>
         <span>工作经验：3年半</span>
       </div>
+      <div className="leadOut" onClick={()=>{
+        if(targetNode.current){
+          html2canvas(targetNode.current).then((canvas)=>{
+            var contentWidth = canvas.width;
+            var contentHeight = canvas.height;
+
+            //一页pdf显示html页面生成的canvas高度;
+            var pageHeight = contentWidth / 592.28 * 841.89;
+            //未生成pdf的html页面高度
+            var leftHeight = contentHeight;
+            //页面偏移
+            var position = 0;
+            //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+            var imgWidth = 595.28;
+            var imgHeight = 592.28/contentWidth * contentHeight;
+
+            var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+            var pdf = new jsPDF('p', 'pt', 'a4');
+
+            //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+            //当内容未超过pdf一页显示的范围，无需分页
+            if (leftHeight < pageHeight) {
+	              pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+            } else {
+              while(leftHeight > 0) {
+                  pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                  leftHeight -= pageHeight;
+                  position -= 841.89;
+                  //避免添加空白页
+                  if(leftHeight > 0) {
+                  pdf.addPage();
+                  }
+              }
+            }
+            pdf.save('黄华康');
+           })
+        }
+      }}>导出简历</div>
+      <div style={{padding:'0 30px 50px'}}>
       <div className="m-t-30">
         <span className="personal-item-title">学习平台</span>
         <ul className="m-t-l-20">
@@ -25,16 +154,23 @@ const Personal=()=>{
       <div className="m-t-30">
         <span className="personal-item-title">自我描述</span>
         <hr/>
-        <div>
-          偏向技术栈方向：react、node、java(目前刚刚入门)
+        <div className="te-title">
+          技术栈方向：react、node、java
         </div>
-        <h5>掌握的技术：</h5>
-        <ul>
+        <br/>
+        <h5 className="te-title m-t-20">掌握的技术：</h5>
+        <ul className="te-content">
           <li>1：熟悉html、javascript、css</li>
-          <li>2：熟悉react+typescript、了解vue</li>
-          <li>3：熟悉node、express开发（正在开发中台服务系统）</li>
+          <li>2：熟悉react+typescript（全家桶）、了解vue(全家桶)</li>
+          <li>3：熟悉node、express开发（正在开发中台服务系统）、mongodb数据的简单存储</li>
           <li>4：掌握webpack构建工具(可以构建react脚手架)</li>
           <li>5：入门java,会用spring、springBoot、mybatis、mybatisPlus开发项目（有全栈开发经验（练习））</li>
+          <li>6：熟悉小程序开发，熟悉es6、es7</li>
+          <li>7：熟悉运营uni-app开发项目</li>
+          <li>8:熟悉git、svn、gitlab代码管理工具</li>
+          <li>9:了解DOM、BOM以及Jquery</li>
+          <li>10:了解serverless云服务</li>
+          <li>11:了解service work基础应用</li>
         </ul>
       </div>
       <div className="m-t-30">
@@ -48,11 +184,32 @@ const Personal=()=>{
         <span className="personal-item-title">工作经历</span>
         <hr/>
         <ul>
-          <li>2018.01.01-2018.12.25:云易网络科技（广州）有限公司</li>
-          <li>2019.01.01-2019.06.30:广州沃泰集团控股有限公司</li>
-          <li>2019.08-2020-05:深圳优泰文创运营有限公司</li>
-          <li>2020.08-至今:阿里巴巴外包（ICBU）</li>
+          {
+            projectArr.map(_item=>{
+              return <li className="m-b-40" key={_item.key}>
+              <h2>{_item.title}</h2>
+              <ul>
+                {
+                  _item.projectList.map((_childrenItem,index)=>{
+                    return <li className="project-item" key={index}>
+                    <div className="project-children-item">
+                      <span className="header-title">职责：</span><span className="content">{_childrenItem.position}</span>
+                    </div>
+                    <div className="project-children-item">
+                      <span className="header-title">项目：</span><span className="content">{_childrenItem.projectName}</span>
+                    </div>
+                    <div style={{padding:'10px 0'}}>
+                      <span className="header-title">技术：</span><span className="content">{_childrenItem.technology}</span>
+                    </div>
+                  </li>
+                  })
+                }
+               </ul>
+            </li>
+            })
+          }
         </ul>
+      </div>
       </div>
 
   </div>
