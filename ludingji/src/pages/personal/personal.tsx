@@ -145,10 +145,10 @@ const Personal=()=>{
       <div className="m-t-30">
         <span className="personal-item-title">学习平台</span>
         <ul className="m-t-l-20">
-          <li>gitHub：<a href="https://github.com/HHKG" target="_blank">我的gitHub</a></li>
-          <li>gitee：<a href="https://gitee.com/hhkwyy" target="_blank">我的gitee</a></li>
-          <li>博客园：<a href="https://www.cnblogs.com/nimon-hugo/" target="_blank">我的博客园</a></li>
-          <li>掘金：<a href="https://juejin.cn/user/2022739672593421" target="_blank">我的掘金</a></li>
+          <li>gitHub：<a href="https://github.com/HHKG" target="_blank">https://github.com/HHKG</a></li>
+          <li>gitee：<a href="https://gitee.com/hhkwyy" target="_blank">https://gitee.com/hhkwyy</a></li>
+          <li>博客园：<a href="https://www.cnblogs.com/nimon-hugo/" target="_blank">https://www.cnblogs.com/nimon-hugo/</a></li>
+          <li>掘金：<a href="https://juejin.cn/user/2022739672593421" target="_blank">https://juejin.cn/user/2022739672593421</a></li>
         </ul>
       </div>
       <div className="m-t-30">

@@ -1,0 +1,13 @@
+.p-20{
+  padding: 20px;
+}
+.m-20{
+  margin: 20px;
+}
+.ant-menu-inline.ant-menu-root .ant-menu-item, .ant-menu-inline.ant-menu-root .ant-menu-submenu-title
+.ant-menu-inline{
+  height: auto;
+}
+.ant-menu-item-group{
+  height: auto;
+}
