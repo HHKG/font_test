@@ -95,6 +95,27 @@ const Clues=(Iprops:{type:string,dataSource:any})=>{
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
   }
+  /**
+   *  myClear
+   * 清除定时器
+   */
+
+  /**
+   * 
+   * 1.写一个 mySetInterVal(fn, a, b),每次间隔 a,a+b,a+2b 的时间，然后写一个 myClear，停止上面的 mySetInterVal
+   */
+  const mySetInterVal=(fn:Function, a:number, b:number)=>{
+
+    /**
+     * 假设a=1,b=2，每次要间隔1,3,7写一个清除函数
+     */
+    //  const timer=setInterval((a)=>{
+    //   console.log(a);
+    // },a)
+    const targetArr=[a,a+b,a+2*b];
+    console.log(fn,a,b);
+  }
+
   return <React.Fragment>
     <label>
       类型：
